@@ -1,0 +1,11 @@
+Grackle - Custom Chess Types for Postgresql
+===========================================
+
+Fast C functions for examining and storing chess positions.
+
+Creates custom types for piece, square, and move.
+
+Uses fen string to store positions and then load them to a position_* group of functions
+that can examine the position and return information in the above mentioned custom types.
+
+Uses chesslib as the base library to for position information.
