@@ -5,7 +5,7 @@ DB = chess
 
 CHESSLIB_DIR = ../chesslib/src
 OBJS = `ls $(CHESSLIB_DIR)/*.o`
-BUILD_DIR = ../build
+LIB_DIR = ../build/lib/
 
 SOURCES = pgchess.c
 OBJECTS = $(SOURCES:.c=.o)
@@ -28,11 +28,11 @@ runsql: $(SQL) $(LIB)
 $(LIB): $(OBJECTS) 
 	$(CC) $(CCFLAGS) $(LDFLAGS) $(OBJS) $(OBJECTS) -shared -o $(LIB)
 
-.c.o:
-	$(CC) $(CCFLAGS) -c $< -o $@
-
 clean:
 	rm -f $(LIB).so $(OBJECTS) $(SQL) runsql
-	
 
-.PHONY: clean
+build:
+	install $(LIB) $(LIB_DIR) 
+
+
+.PHONY: clean build
