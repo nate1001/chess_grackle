@@ -2,7 +2,9 @@
 LIB = libpgchess.so
 DB = chess
 
+
 CHESSLIB_DIR = ../chesslib/src
+OBJS = `ls $(CHESSLIB_DIR)/*.o`
 BUILD_DIR = ../build
 
 SOURCES = pgchess.c
@@ -18,11 +20,10 @@ all: $(LIB) $(SQL)
 	psql $(DB) -f $(SQL)
 
 %.sql: %.source
-	echo sed -e "s:_OBJWD_:`pwd`/:g" < $< > $@
 	rm -f $@ && sed -e "s:_OBJWD_:`pwd`/:g" < $< > $@
 
 $(LIB): $(OBJECTS) 
-	$(CC) $(CCFLAGS) $(LDFLAGS) $(OBJECTS) -shared -o $(LIB)
+	$(CC) $(CCFLAGS) $(LDFLAGS) $(OBJS) $(OBJECTS) -shared -o $(LIB)
 
 .c.o:
 	$(CC) $(CCFLAGS) -c $< -o $@
