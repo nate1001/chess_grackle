@@ -16,8 +16,11 @@ LDFLAGS = -L $(CHESSLIB_DIR) -lchess
 
 CC = gcc
 
-all: $(LIB) $(SQL) 
-	psql $(DB) -f $(SQL)
+all: runsql
+
+runsql: $(SQL) $(LIB)
+	psql $(DB) -f $(SQL) > /dev/null
+	touch $@
 
 %.sql: %.source
 	rm -f $@ && sed -e "s:_OBJWD_:`pwd`/:g" < $< > $@
@@ -29,5 +32,7 @@ $(LIB): $(OBJECTS)
 	$(CC) $(CCFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(LIB).so $(OBJECTS) $(SQL)
+	rm -f $(LIB).so $(OBJECTS) $(SQL) runsql
 	
+
+.PHONY: clean
